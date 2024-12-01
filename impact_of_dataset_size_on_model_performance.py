@@ -191,7 +191,6 @@ def measure_performance(X, y, model_type, resample_rate=(1, 3)):
 def plot_results(data_sizes, times, mem_usages):
     fig, ax1 = plt.subplots(figsize=(10, 6))
 
-    # 设置主轴（时间）
     color = 'tab:red'
     ax1.set_xlabel('Data Size', fontsize=14)
     ax1.set_ylabel('Time (seconds)', color=color, fontsize=14)
@@ -199,7 +198,6 @@ def plot_results(data_sizes, times, mem_usages):
     ax1.tick_params(axis='y', labelcolor=color, labelsize=12)
     ax1.grid(True, which='both', linestyle='--', linewidth=0.5)
 
-    # 设置次轴（内存使用）
     ax2 = ax1.twinx()
     color = 'tab:blue'
     ax2.set_ylabel('Memory Usage (MB)', color=color, fontsize=14)
@@ -207,15 +205,11 @@ def plot_results(data_sizes, times, mem_usages):
     ax2.tick_params(axis='y', labelcolor=color, labelsize=12)
 
 
-    # 添加图例
     lines, labels = ax1.get_legend_handles_labels()
     lines2, labels2 = ax2.get_legend_handles_labels()
     ax1.legend(lines + lines2, labels + labels2, loc='upper left', fontsize=12)
 
-    # 调整布局
     fig.tight_layout()
-
-    # 显示图表
     plt.show()
     pass
 
@@ -264,12 +258,9 @@ if __name__ == "__main__":
     data = data.drop(['CVDINFR4', 'CVDCRHD4', '_STATE', 'FMONTH', 'IDATE', 'IMONTH', 'IDAY', 'IYEAR', 'DISPCODE', 'SEQNO', '_PSU', 'CTELENM1', 'PVTRESD1',
                       'RESPSLCT', 'SAFETIME', 'DIABAGE4', 'NUMPHON4', 'CPDEMO1C', 'BLDSTFIT', 'QSTVER', 'QSTLANG', '_METSTAT'], axis=1)
 
-    # 计算每列中缺失值的数量
     missing_values_count = data.isnull().sum()
 
-    # 找到缺失值数量大于10000的列
     columns_to_drop = missing_values_count[missing_values_count > 50000].index
-    # 删除这些列
     data.drop(columns=columns_to_drop, inplace=True)
     data.dropna(how='any', axis=0, inplace=True)
     print(data.shape)

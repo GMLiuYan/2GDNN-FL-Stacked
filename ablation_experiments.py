@@ -222,7 +222,6 @@ def main(X, y, n_splits=5):
             X_train, X_test = X.iloc[train_index], X.iloc[test_index]
             y_train, y_test = y.iloc[train_index], y.iloc[test_index]
 
-            # 初始化内存统计
             torch.cuda.reset_peak_memory_stats()
             process = psutil.Process()
 
@@ -279,12 +278,9 @@ if __name__ == "__main__":
     data = data.drop(['CVDINFR4', 'CVDCRHD4', '_STATE', 'FMONTH', 'IDATE', 'IMONTH', 'IDAY', 'IYEAR', 'DISPCODE', 'SEQNO', '_PSU', 'CTELENM1', 'PVTRESD1',
                       'RESPSLCT', 'SAFETIME', 'DIABAGE4', 'NUMPHON4', 'CPDEMO1C', 'BLDSTFIT', 'QSTVER', 'QSTLANG', '_METSTAT'], axis=1)
 
-    # 计算每列中缺失值的数量
     missing_values_count = data.isnull().sum()
 
-    # 找到缺失值数量大于10000的列
     columns_to_drop = missing_values_count[missing_values_count > 50000].index
-    # 删除这些列
     data.drop(columns=columns_to_drop, inplace=True)
     data.dropna(how='any', axis=0, inplace=True)
     print(data.shape)
